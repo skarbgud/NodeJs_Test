@@ -1,9 +1,11 @@
 var express = require("express");
 var router = express.Router();
 var fs = require("fs");
+require('dotenv').config();
 
 const { Client } = require('@elastic/elasticsearch');
-const client = new Client({ node: 'http://172.16.1.10:9200'});
+
+const client = new Client({ node: process.env.CLIENT_ADDRESS});
 
 router.post("/v1/input/:clientToken", function (req, res, next) {
   fs.appendFile("datadog.txt", '[ HEADER ] \n' + JSON.stringify(req.headers) + '\n\n [ BODY ] \n' + req.body + '\n\n', function (err) {
